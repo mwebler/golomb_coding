@@ -13,9 +13,7 @@ function handleFileSelect(evt) {
         aByte = res.charCodeAt(n);
         byteStr = aByte.toString(16).toUpperCase();
         var value = byteStr = aByte.toString(10);
-        var gol = $.golombizer({
-          divisor: 2
-        });
+        var gol = Golombzr({divisor: 2, stopbit: 0}); /* global Golombzr module */
         var code = gol.encode(value);
         console.log(code.quotient + ' ' + code.remainder + ' ' + code.value);
         if (byteStr.length < 2) {
