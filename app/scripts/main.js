@@ -12,6 +12,12 @@ function handleFileSelect(evt) {
       for (n = 0; n < res.length; ++n) {
         aByte = res.charCodeAt(n);
         byteStr = aByte.toString(16).toUpperCase();
+        var value = byteStr = aByte.toString(10);
+        var gol = $.golombizer({
+          divisor: 2
+        });
+        var code = gol.encode(value);
+        console.log(code.quotient + ' ' + code.remainder + ' ' + code.value);
         if (byteStr.length < 2) {
           byteStr = "0" + byteStr;
         }
