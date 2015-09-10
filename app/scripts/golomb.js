@@ -56,8 +56,11 @@ var Golombzr = function (config) {
     };
     
     var decode = function(code) {
-        var value = 0;
-        return value;
+        var quotient = code.split(options.stopbit)[0].length;
+        var remainder = code.substr(code.length-remainder_size, code.length);
+        remainder = parseInt(remainder, 2);
+        
+        return quotient * options.divisor + remainder;
     };
     
     return {
