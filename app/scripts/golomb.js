@@ -24,7 +24,15 @@ var Golombzr = function (config) {
             return value & (options.divisor-1);
         }
         else{
-           return value % options.divisor
+            // truncate binary encoding
+            var x = Math.pow(2, remainder_size) - options.divisor;
+            var remainder = value % options.divisor;
+            if(remainder < x){
+                return remainder;
+            }
+            else{
+                return remainder + x;
+            }
         }
     };
     
@@ -35,11 +43,16 @@ var Golombzr = function (config) {
     
     var getBinaryPortion = function(remainder){
         var binary = remainder.toString(2);
-        if(binary.length >= remainder_size){
+        var size = remainder_size;
+        var x = Math.pow(2, remainder_size) - options.divisor;
+        if(!isRice && remainder < x){  
+            size -= 1;
+        }
+        if(binary.length >= size){
             return binary;
-        }   
+        }
         else{
-            return Array(remainder_size + 1 - binary.length).join('0') + binary;
+            return Array(size + 1 - binary.length).join('0') + binary;
         }
     };
     
