@@ -1,6 +1,7 @@
 // jshint devel:true
 
 var array_result = [];
+var original_content = '';
 var file_content;
 
 function showEncode(encoded_array){
@@ -27,7 +28,29 @@ function showDecode(result_string){
       + encodeURIComponent(result_string);
     };
   });
-}
+};
+
+function showEncodeEnd(){
+  $("#debug-buttons").fadeOut(100);
+  $("#encode").prop('disabled', false);
+  $("#decode").prop('disabled', false);
+
+  var cont = "<p>" + "Encoding done." + "</p>" + 
+  "<a href=\"\" id=\"link\" download=\"encoded_file.txt\">Click to download encoded file.</a>" + 
+  "<br><br>" + 
+  "<h3>File content</h3>" + "<p>" + original_content + "</p>" + 
+  "<br>" + 
+  "<h3>Encoded result</h3>" + "<p>" + file_content + "</p>";
+  
+  $('#result').fadeOut('slow', function() {
+    $('#result').html(cont);
+    $('#result').fadeIn('slow');
+    document.getElementById('link').onclick = function(code) {
+    this.href = 'data:text/plain;charset=utf-8,'
+      + encodeURIComponent(file_content);
+    };
+  });
+};
 
 function doEncode(content, divisor, stopbit){
   var result = [];
@@ -87,6 +110,7 @@ $( document ).ready(function() {
     reader.onload = (function(theFile) {
       return function(e) {
         var res = e.target.result;
+        original_content = res;
         var result = doEncode(res, divisor, 1);
         showEncode(result);
       };
@@ -110,6 +134,7 @@ $( document ).ready(function() {
     reader.onload = (function(theFile) {
       return function(e) {
         var res = e.target.result;
+        original_content = res;
         var result = doDecode(res, divisor, 1);
         showDecode(result);
       };
@@ -121,20 +146,7 @@ $( document ).ready(function() {
   $("#step").click(function(){
     
     if(array_result.length == 0){
-      $("#debug-buttons").fadeOut(100);
-      $("#encode").prop('disabled', false);
-      $("#decode").prop('disabled', false);
-      var cont = "<p>" + "Encoding done." + "</p>" + 
-      "<a href=\"\" id=\"link\" download=\"encoded_file.txt\">Click to download encoded file.</a>";
-      
-      $('#result').fadeOut('slow', function() {
-        $('#result').html(cont);
-        $('#result').fadeIn('slow');
-        document.getElementById('link').onclick = function(code) {
-        this.href = 'data:text/plain;charset=utf-8,'
-          + encodeURIComponent(file_content);
-        };
-      });
+      showEncodeEnd();
       return;
     }
     
@@ -148,5 +160,10 @@ $( document ).ready(function() {
       $('#result').html(cont);
       $('#result').fadeIn('slow');
     });
+  });
+  
+  $("#run").click(function() {
+      array_result = [];
+      showEncodeEnd();
   });
 });
