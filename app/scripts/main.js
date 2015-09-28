@@ -10,10 +10,24 @@ function showEncode(encoded_array){
   }).join("");
   
   $("#debug-buttons").fadeIn(100);
-  $("#submit").prop('disabled', true);
+  $("#encode").prop('disabled', true);
+  $("#decode").prop('disabled', true);
 };
 
-
+function showDecode(result_string){
+  var cont = "<p>" + "Decoding done." + "</p>" +
+    "<p>" + result_string + "</p>" +
+    "<a href=\"\" id=\"link\" download=\"decoded_file.txt\">Click to download decoded file.</a>";
+    
+  $('#result').fadeOut('slow', function() {
+    $('#result').html(cont);
+    $('#result').fadeIn('slow');
+    document.getElementById('link').onclick = function(code) {
+    this.href = 'data:text/plain;charset=utf-8,'
+      + encodeURIComponent(result_string);
+    };
+  });
+}
 
 function doEncode(content, divisor, stopbit){
   var result = [];
@@ -34,7 +48,9 @@ function doDecode(code, divisor, stopbit){
   var remainder_size = Math.ceil(Math.log2(divisor));
   var pos = 0;
   var quotient = 0;
+  var result = '';
   while(pos < code.length){
+    quotient = 0;
     while(code.charAt(pos) != stopbit){
       quotient++;
       pos++;
@@ -43,14 +59,20 @@ function doDecode(code, divisor, stopbit){
     var remainder = code.substr(pos, remainder_size);
     remainder = parseInt(remainder, 2);
     pos += remainder_size;
+    
+    var char_code = quotient * divisor + remainder;
+    var char = String.fromCharCode(char_code);
+    result = result.concat(char);
   }
+  
+  return result;
 };
 
 function exportToFile(code){
 };
 
 $( document ).ready(function() {
-  $('#submit').click(function(){
+  $('#encode').click(function(){
     var divisor = parseInt($('#divisor')[0].value);
     var file = $('#files')[0].files[0];
     if(file === undefined || divisor === undefined)
@@ -73,13 +95,37 @@ $( document ).ready(function() {
   reader.readAsBinaryString(file); 
   });
   
+  $('#decode').click(function(){
+    var divisor = parseInt($('#divisor')[0].value);
+    var file = $('#files')[0].files[0];
+    if(file === undefined || divisor === undefined)
+      return;
+      
+    if(divisor < 2 || divisor > 128)
+      return;
+    
+    var reader = new FileReader();
+  
+    // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+      return function(e) {
+        var res = e.target.result;
+        var result = doDecode(res, divisor, 1);
+        showDecode(result);
+      };
+    })(file);
+
+  reader.readAsBinaryString(file); 
+  });
+  
   $("#step").click(function(){
     
     if(array_result.length == 0){
       $("#debug-buttons").fadeOut(100);
-      $("#submit").prop('disabled', false);
-      var cont = "<p>" + "Encoding done. Click to download encoded file." + "</p>" + 
-      "<a href=\"\" id=\"link\" download=\"encoded_file.txt\">Download Above Code</a>";
+      $("#encode").prop('disabled', false);
+      $("#decode").prop('disabled', false);
+      var cont = "<p>" + "Encoding done." + "</p>" + 
+      "<a href=\"\" id=\"link\" download=\"encoded_file.txt\">Click to download encoded file.</a>";
       
       $('#result').fadeOut('slow', function() {
         $('#result').html(cont);
