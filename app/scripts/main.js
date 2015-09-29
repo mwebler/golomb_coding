@@ -8,7 +8,7 @@ function showEncode(encoded_array){
   array_result = encoded_array;
   file_content = encoded_array.map(function(elem){
     return elem.code;
-  }).join("");
+  }).join(" ");
   
   $("#debug-buttons").fadeIn(100);
   $("#encode").prop('disabled', true);
@@ -95,11 +95,15 @@ $( document ).ready(function() {
   $('#encode').click(function(){
     var divisor = parseInt($('#divisor')[0].value);
     var file = $('#files')[0].files[0];
-    if(file === undefined || divisor === undefined)
+    if(file === undefined || divisor === undefined){
+      alert("File or divisor not selected!")
       return;
+    }
       
-    if(divisor < 2 || divisor > 128)
+    if(divisor < 2 || divisor > 128){
+      alert("Select divisor from 2 to 128!")
       return;
+    }
     
     var reader = new FileReader();
   
@@ -119,11 +123,15 @@ $( document ).ready(function() {
   $('#decode').click(function(){
     var divisor = parseInt($('#divisor')[0].value);
     var file = $('#files')[0].files[0];
-    if(file === undefined || divisor === undefined)
+    if(file === undefined || divisor === undefined){
+      alert("File or divisor not selected!")
       return;
+    }
       
-    if(divisor < 2 || divisor > 128)
+    if(divisor < 2 || divisor > 128){
+      alert("Select divisor from 2 to 128!")
       return;
+    }
     
     var reader = new FileReader();
   
