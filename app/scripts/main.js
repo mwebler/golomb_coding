@@ -91,9 +91,6 @@ function doDecode(code, divisor, stopbit){
   return result;
 };
 
-function exportToFile(code){
-};
-
 $( document ).ready(function() {
   $('#encode').click(function(){
     var divisor = parseInt($('#divisor')[0].value);
