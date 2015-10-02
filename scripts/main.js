@@ -105,8 +105,8 @@ $(document).ready(function() {
       return;
     }
 
-    if (divisor < 2 || divisor > 128) {
-      alert("Select divisor from 2 to 128!")
+    if (divisor < 2 || divisor > 128 || isNaN(divisor)) {
+      alert("Select divisor from 2 to 128!");
       return;
     }
 
