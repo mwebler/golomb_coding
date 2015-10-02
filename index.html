@@ -41,7 +41,7 @@
         </div>
       </form>
       <div class="col-sm-6">
-        <button data-toggle="collapse" data-target="#info" class="btn btn-default">About - How to</button>
+        <button data-toggle="collapse" data-target="#info" class="btn btn-info">About - How to</button>
   
         <div id="info" class="collapse">
         This is a Golomb encoder. Select a file and  a divisor in the left and press encode or decode button.
@@ -59,8 +59,7 @@
       <input id="decode" type="button" value="Decode" class="btn btn-default"/>
     </div>
   
-    <div class="row">
-      <div id="debug-buttons" style="display:none">
+    <div id="debug-buttons" style="display:none" class="row top-buffer">
         <button id="step" type="button" class="btn btn-default">
           Step
         <span class="glyphicon glyphicon-chevron-right"></span>
@@ -68,12 +67,11 @@
         <button id="run" type="button" class="btn btn-default">
           Run
           <span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></button>
-      </div>
+      
     </div>
     
-    <div class="row">
-      <div id="result" style="display:none">
-      </div>
+    <div class="row top-buffer" id="result" style="display:none">
+      
     </div>
     
   </div>
