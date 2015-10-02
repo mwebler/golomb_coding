@@ -40,6 +40,18 @@
           <input type="number" name="divisor" min="2" max="128" class="form-control" id="divisor">
         </div>
       </form>
+      <div class="col-sm-6">
+        <button data-toggle="collapse" data-target="#info" class="btn btn-default">About - How to</button>
+  
+        <div id="info" class="collapse">
+        This is a Golomb encoder. Select a file and  a divisor in the left and press encode or decode button.
+        When encoding you will be able to check the encoding step by step or just run to the end.
+        When decoding there is no step by step option.
+        After finishing the encoding/decoding the source and the result will be put in the screen.
+        As input for encoding a plain text file is expected.
+        As input for decoding a plain text file with '0's and '1's is expected.
+        </div>
+      </div>
     </div>
     
     <div class="row">
